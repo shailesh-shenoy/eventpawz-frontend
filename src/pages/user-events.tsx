@@ -9,9 +9,8 @@ import { useEffect, useState } from "react";
 
 export default function UserEvents() {
   const { user: currentUser, appUser, refetchUser } = useCurrentUser();
-
   const toast = useToast();
-  console.log(appUser);
+
   return (
     <Container maxW="6xl" p={6} minH="90vh">
       <Stack direction="column" spacing={6} rounded="xl" bg="gray.100" p={6}>

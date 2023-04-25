@@ -9,6 +9,10 @@ export const NAV_ITEMS: Array<NavItem> = [
     link: "/user-events",
   },
   {
+    label: "CREATE",
+    link: "/create-event",
+  },
+  {
     label: "BROWSE",
     link: "/all-events",
   },

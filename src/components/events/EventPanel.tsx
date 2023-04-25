@@ -31,6 +31,9 @@ export default function EventPanel({
   const [eventState, setEventState] = useState(event?.state);
   const [eventZipCode, setEventZipCode] = useState(event?.zipCode);
   const [eventType, setEventType] = useState(event?.eventType?.type);
+  const [eventVirtualLink, setEventVirtualLink] = useState(
+    event?.virtualMeetLink
+  );
 
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
   const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "";
@@ -157,6 +160,14 @@ export default function EventPanel({
           onChange={(e) => setEventType(e.target.value)}
         />
       </FormControl>
+      <FormControl isReadOnly={!editMode}>
+        <FormLabel>Event Virtual Link</FormLabel>
+        <Input
+          type="text"
+          value={eventVirtualLink ?? ""}
+          onChange={(e) => setEventVirtualLink(e.target.value)}
+        />
+      </FormControl>
       {editMode && (
         <Button
           gridColumn={{ base: "span 1", md: "span 2" }}
@@ -192,6 +203,7 @@ export default function EventPanel({
           eventType: {
             type: eventType,
           },
+          virtualMeetLink: eventVirtualLink,
         },
         { headers }
       )
@@ -199,7 +211,7 @@ export default function EventPanel({
         console.log(data);
         toast({
           title: "Success",
-          description: "Your event has been created!",
+          description: "Your event has been updated!",
           status: "success",
           duration: 1000,
           isClosable: true,
