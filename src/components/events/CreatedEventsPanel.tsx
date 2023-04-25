@@ -17,7 +17,7 @@ export default function CreatedEventsPanel({
   refetchUser,
 }: CreatedEventsPanelProps) {
   return (
-    <Accordion allowMultiple={true} defaultIndex={[0]}>
+    <Accordion allowMultiple={true}>
       {appUser?.createdEvents?.map((event: Event) => {
         return (
           <AccordionItem key={event.eventId}>
@@ -31,6 +31,7 @@ export default function CreatedEventsPanel({
             </AccordionButton>
             <AccordionPanel pb={4}>
               <EventPanel
+                attendable={false}
                 event={event}
                 appUserId={appUser?.id?.toString()}
                 editable={true}

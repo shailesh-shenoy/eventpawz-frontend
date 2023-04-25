@@ -11,11 +11,11 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import axios, { AxiosHeaders } from "axios";
-import { url } from "inspector";
 import { useState } from "react";
 
 export default function EventPanel({
   editable,
+  attendable,
   event,
   appUserId,
   refetchUser,
@@ -178,8 +178,56 @@ export default function EventPanel({
           Submit
         </Button>
       )}
+      {attendable && (
+        <Button
+          onClick={handleAttend}
+          gridColumn={{ base: "span 1", md: "span 2" }}
+          maxW={20}
+          colorScheme="primary"
+        >
+          Attend
+        </Button>
+      )}
     </SimpleGrid>
   );
+
+  async function handleAttend(e: any) {
+    e.preventDefault();
+    const headers = {
+      "Content-Type": "application/json",
+      ...getAuthorizationHeader(),
+    } as unknown as AxiosHeaders;
+
+    axios
+      .post(
+        `${API_BASE_URL}/events/${event?.eventId}/register`,
+        {
+          userId: appUserId,
+        },
+        { headers }
+      )
+      .then((data) => {
+        console.log("EventRegistration: ", data);
+        refetchUser(appUserId ?? "");
+        toast({
+          title: "Success",
+          description: "You have successfully registered for this event!",
+          status: "success",
+          duration: 1000,
+          isClosable: true,
+        });
+      })
+      .catch((error) => {
+        console.log("EventRegistration: ", error);
+        toast({
+          title: "Error",
+          description: "There was an error registering for this event.",
+          status: "error",
+          duration: 1000,
+          isClosable: true,
+        });
+      });
+  }
 
   async function handleSubmit(e: any) {
     e.preventDefault();
@@ -233,6 +281,7 @@ export default function EventPanel({
 
 type EventPanelProps = {
   editable: boolean;
+  attendable: boolean;
   event?: Event;
   appUserId?: string;
   refetchUser: (userId: string) => Promise<void>;

@@ -66,7 +66,6 @@ export default function Login() {
           <Input
             variant="outline"
             type="text"
-            color="gray.900"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />

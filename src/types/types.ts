@@ -25,6 +25,8 @@ export type Event = {
   state?: string;
   zipCode?: string;
   eventType?: EventType;
+  createdBy?: Attendee;
+  attendees?: Attendee[];
 };
 
 export type EventType = {
@@ -36,4 +38,21 @@ export type AuthResponse = {
   username?: string;
   id?: string;
   accessToken?: string;
+};
+
+export type RegisterRequest = {
+  username?: string;
+  password?: string;
+  email?: string;
+  name?: string;
+};
+
+export type Attendee = {
+  id?: number;
+  username?: string;
+  email?: string;
+  name?: string;
+  role?: string;
+  avatar?: null | string;
+  enabled?: boolean;
 };
