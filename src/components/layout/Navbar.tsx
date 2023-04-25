@@ -10,14 +10,19 @@ import {
   List,
   ListItem,
   Image,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
 
 import { NAV_ITEMS } from "./types";
+import { useCurrentUser } from "@/hooks/auth/useCurrentUser";
+import { useLogout } from "@/hooks/auth/useLogout";
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
+  const { user: currentUser, refetchUser } = useCurrentUser();
+  const { logout } = useLogout();
 
   return (
     <Box
@@ -65,6 +70,22 @@ export default function Navbar() {
             ml={12}
           >
             <DesktopNav />
+          </Flex>
+          <Flex align="center">
+            {currentUser ? (
+              <Button onClick={() => logout()} colorScheme="primary">
+                Logout
+              </Button>
+            ) : (
+              <ButtonGroup spacing="4">
+                <Button as={NextLink} href="/login" colorScheme="green">
+                  Login
+                </Button>
+                <Button as={NextLink} href="/register" colorScheme="blue">
+                  Register
+                </Button>
+              </ButtonGroup>
+            )}
           </Flex>
         </Flex>
       </Flex>

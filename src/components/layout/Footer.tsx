@@ -65,7 +65,7 @@ export default function Footer() {
 
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
-    <Heading as="h4" fontWeight={"600"} fontSize={"xl"} mb={2}>
+    <Heading as="h4" fontWeight={"500"} fontSize={"xl"} mb={2}>
       {children}
     </Heading>
   );
