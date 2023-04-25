@@ -4,7 +4,9 @@ import {
   Button,
   FormControl,
   FormLabel,
+  Image,
   Input,
+  SimpleGrid,
   Stack,
   useToast,
 } from "@chakra-ui/react";
@@ -31,18 +33,21 @@ export default function EventPanel({
   const [eventType, setEventType] = useState(event?.eventType?.type);
 
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
+  const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "";
+  const defaultCoverImage = "/default-event.jpg";
   const toast = useToast();
 
   return (
-    <Stack
+    <SimpleGrid
       as="form"
       onSubmit={handleSubmit}
-      direction="column"
+      columns={{ base: 1, md: 2 }}
       spacing={4}
       p={4}
     >
       {editable && (
         <Button
+          gridColumn={{ base: "span 1", md: "span 2" }}
           colorScheme="blue"
           maxW={20}
           onClick={() => setEditMode(!editMode)}
@@ -50,11 +55,22 @@ export default function EventPanel({
           Edit
         </Button>
       )}
-      <FormControl isDisabled>
+
+      <Image
+        src={
+          event?.coverImage
+            ? `${API_HOST}/${event.coverImage}`
+            : defaultCoverImage
+        }
+        alt="Event Cover Image"
+        gridColumn={{ base: "span 1", md: "span 2" }}
+      />
+
+      <FormControl isReadOnly>
         <FormLabel>Event Id</FormLabel>
         <Input type="text" value={event?.eventId ?? ""} />
       </FormControl>
-      <FormControl isDisabled={!editMode}>
+      <FormControl isReadOnly={!editMode}>
         <FormLabel>Event Name</FormLabel>
         <Input
           type="text"
@@ -62,7 +78,7 @@ export default function EventPanel({
           onChange={(e) => setEventName(e.target.value)}
         />
       </FormControl>
-      <FormControl isDisabled={!editMode}>
+      <FormControl isReadOnly={!editMode}>
         <FormLabel>Event Description</FormLabel>
         <Input
           type="text"
@@ -70,12 +86,12 @@ export default function EventPanel({
           onChange={(e) => setEventDescription(e.target.value)}
         />
       </FormControl>
-      <FormControl isDisabled>
+      <FormControl isReadOnly>
         <FormLabel>Status</FormLabel>
         <Input type="text" value={event?.status ?? ""} />
       </FormControl>
 
-      <FormControl isDisabled={!editMode}>
+      <FormControl isReadOnly={!editMode}>
         <FormLabel>Event Date</FormLabel>
         <Input
           type="date"
@@ -83,7 +99,7 @@ export default function EventPanel({
           onChange={(e) => setEventDate(e.target.value)}
         />
       </FormControl>
-      <FormControl isDisabled={!editMode}>
+      <FormControl isReadOnly={!editMode}>
         <FormLabel>Event Start Time</FormLabel>
         <Input
           type="time"
@@ -92,7 +108,7 @@ export default function EventPanel({
           onChange={(e) => setEventStartTime(e.target.value)}
         />
       </FormControl>
-      <FormControl isDisabled={!editMode}>
+      <FormControl isReadOnly={!editMode}>
         <FormLabel>Event End Time</FormLabel>
         <Input
           type="time"
@@ -101,7 +117,7 @@ export default function EventPanel({
           onChange={(e) => setEventEndTime(e.target.value)}
         />
       </FormControl>
-      <FormControl isDisabled={!editMode}>
+      <FormControl isReadOnly={!editMode}>
         <FormLabel>Event Address</FormLabel>
         <Input
           type="text"
@@ -109,7 +125,7 @@ export default function EventPanel({
           onChange={(e) => setEventAddress(e.target.value)}
         />
       </FormControl>
-      <FormControl isDisabled={!editMode}>
+      <FormControl isReadOnly={!editMode}>
         <FormLabel>Event City</FormLabel>
         <Input
           type="text"
@@ -117,7 +133,7 @@ export default function EventPanel({
           onChange={(e) => setEventCity(e.target.value)}
         />
       </FormControl>
-      <FormControl isDisabled={!editMode}>
+      <FormControl isReadOnly={!editMode}>
         <FormLabel>Event State</FormLabel>
         <Input
           type="text"
@@ -125,7 +141,7 @@ export default function EventPanel({
           onChange={(e) => setEventState(e.target.value)}
         />
       </FormControl>
-      <FormControl isDisabled={!editMode}>
+      <FormControl isReadOnly={!editMode}>
         <FormLabel>Event Zip Code</FormLabel>
         <Input
           type="text"
@@ -133,7 +149,7 @@ export default function EventPanel({
           onChange={(e) => setEventZipCode(e.target.value)}
         />
       </FormControl>
-      <FormControl isDisabled={!editMode}>
+      <FormControl isReadOnly={!editMode}>
         <FormLabel>Event Type</FormLabel>
         <Input
           type="text"
@@ -142,11 +158,16 @@ export default function EventPanel({
         />
       </FormControl>
       {editMode && (
-        <Button type="submit" colorScheme="green" maxW={20}>
+        <Button
+          gridColumn={{ base: "span 1", md: "span 2" }}
+          type="submit"
+          colorScheme="green"
+          maxW={20}
+        >
           Submit
         </Button>
       )}
-    </Stack>
+    </SimpleGrid>
   );
 
   async function handleSubmit(e: any) {
